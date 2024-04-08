@@ -12,6 +12,9 @@ class LLM:
 
     def response_parser(self, response):
         return response.choices[0].message.content
+    
+    def initialise_llm(self, api_key):
+        self.llm = wrappers.wrap_openai(OpenAI(api_key=api_key))
 
     @traceable
     def step(self, prompt):

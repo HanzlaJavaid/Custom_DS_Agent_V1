@@ -215,6 +215,10 @@ class AgentController(LLM):
         col1.title("Custom Data Science Agent")
         col1.header("Chat Window")
         col2.header("Working")
+        openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+        if openai_api_key:
+            self.initialise_llm(openai_api_key)
+            
         if "codes" not in st.session_state:
             st.session_state.codes = []
 
