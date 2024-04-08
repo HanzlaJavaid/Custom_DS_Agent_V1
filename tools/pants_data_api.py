@@ -1,7 +1,11 @@
 import pandas as pd
 
-
-df = pd.read_csv('/home/khudi/Desktop/my_own_agent/final_pants_dataset.csv')
+local_path = "pants_dataset.csv"
+try:
+    df = pd.read_csv(local_path)
+except:
+    df = pd.read_csv("https://datasetsdatascienceagent.blob.core.windows.net/salesdatasets/final_pants_dataset.csv")
+    df.to_csv(local_path)
 
 
 # print(df.tail())

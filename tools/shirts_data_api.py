@@ -1,7 +1,11 @@
 import pandas as pd
 
-
-df = pd.read_csv('/home/khudi/Desktop/my_own_agent/Shirts_sales_data.csv')
+local_path = "shirts_dataset.csv"
+try:
+    df = pd.read_csv(local_path)
+except:
+    df = pd.read_csv("https://datasetsdatascienceagent.blob.core.windows.net/salesdatasets/Shirts_sales_data.csv")
+    df.to_csv(local_path)
 
 
 def shirts_data_api(start_date:str='2022-01-01', end_date:str='2023-12-31', sku_id: str='all', name:str="all", size:str="all", color:str='all',  material:str='all', pattern:str='all', sleeve_length:str='all', neck_style:str='all', tags:str='all', pocket_style:str='all'):

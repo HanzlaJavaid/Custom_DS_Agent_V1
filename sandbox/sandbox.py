@@ -1,6 +1,6 @@
 import sys
 # Add the utils directory to the Python path
-sys.path.insert(0, '/home/khudi/Desktop/my_own_agent/')
+#sys.path.insert(0, '/home/khudi/Desktop/my_own_agent/')
 import pandas as pd
 from code.xgboost_model import xgboost_model as xgboost_model_fit_predict
 from tools.pants_data_api import pants_data_api

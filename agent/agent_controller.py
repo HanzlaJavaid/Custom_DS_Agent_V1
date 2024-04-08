@@ -211,8 +211,8 @@ class AgentController(LLM):
 
     def setup_streamlit(self):
         st.set_page_config(page_title="The Data Science Agent", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
+        st.title("Custom Data Science Agent")
         col1, col2 = st.columns([2,1],gap = "medium")
-        col1.title("Custom Data Science Agent")
         col1.header("Chat Window")
         col2.header("Working")
         openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
@@ -229,7 +229,9 @@ class AgentController(LLM):
             st.session_state.tasks = []
         with col2:
             self.container1 = st.container(height=200, border=True)
-            self.container2 = st.container(height=400, border=True)
+            self.container2 = st.container(height=600, border=True)
+            self.container1.markdown("**Tasks**")
+            self.container2.markdown("**Code**")
         self.col1 = col1
         self.col2 = col2
 
