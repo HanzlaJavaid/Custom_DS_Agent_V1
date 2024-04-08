@@ -68,7 +68,6 @@ nltk==3.8.1
 numpy==1.26.4
 openai==1.16.2
 orjson==3.10.0
-packaging==24.0
 pandas==2.2.1
 pillow==10.3.0
 protobuf==4.25.3
