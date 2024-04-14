@@ -8,11 +8,12 @@ import json
 from jinja2 import Template
 from tools.pants_data_api import pants_data_api
 from tools.shirts_data_api import shirts_data_api
-from tools.forecasting_model_inference import forecasting_model_inference_api
+# from tools.forecasting_model_inference import forecasting_model_inference_api
 
 import streamlit as st 
 
 sandbox = PythonSandbox()
+
 # print(sandbox.execute_code("print(pants_data_api())"))
 
 controller = AgentController(planner_prompt=planner_prompt,
@@ -26,4 +27,4 @@ controller = AgentController(planner_prompt=planner_prompt,
                             forecasting_model_inference_prompt=forecasting_model_inference_prompt
 )
 
-controller.streamlit_initiate_chat("can you forecast the sales of pant for january 2024")
+controller.streamlit_initiate_chat()

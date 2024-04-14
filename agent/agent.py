@@ -5,7 +5,7 @@ import os
 
 
 class LLM:
-    def __init__(self, openai_model_name):
+    def __init__(self, openai_model_name='gpt-3.5-turbo-0125'):
         self.llm = wrappers.wrap_openai(OpenAI(api_key=""))
         self.openai_model_name = openai_model_name
 

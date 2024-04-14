@@ -49,5 +49,5 @@ class PythonSandbox:
             # Restore stdout
             sys.stdout = old_stdout
 
-            return {"result": 'FAILURE', "output":  f"Oops, there seems to be an error in your code. Make correction and retry.\n\nCode: {code}\n\nOutput:{self.output}\n\nError: {e}"}
+            return {"result": 'FAILURE', "output":  f"Oops, there seems to be an error in your code. Make correction and retry. \nCode: {code} \nOutput:{self.output}\n\nError: {e}"}
 

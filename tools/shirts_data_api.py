@@ -1,10 +1,9 @@
 import pandas as pd
 
 
-df = pd.read_csv('/home/khudi/Desktop/my_own_agent/Shirts_sales_data.csv')
+df = pd.read_csv('/home/khudi/Desktop/my_own_agent/final_shirts_dataset.csv')
 
-
-def shirts_data_api(start_date:str='2022-01-01', end_date:str='2023-12-31', sku_id: str='all', name:str="all", size:str="all", color:str='all',  material:str='all', pattern:str='all', sleeve_length:str='all', neck_style:str='all', tags:str='all', pocket_style:str='all'):
+def shirts_data_api(start_date:str='2022-01-01', end_date:str='2023-12-31', sku_id: str='all', size:str="all", color:str='all',  material:str='all', pattern:str='all', sleeve_length:str='all', neck_style:str='all', tags:str='all', pocket_style:str='all', store:str='all', region:str='all'):
     kwargs = {k: v for k, v in locals().items() if k != 'self' and k != 'kwargs' and v != 'all'}
     column_mapping = {
         'sku_id': 'sku id',
@@ -16,7 +15,9 @@ def shirts_data_api(start_date:str='2022-01-01', end_date:str='2023-12-31', sku_
         'sleeve_length':'sleeve length',
         'neck_style': 'neck style',
         'tags': 'tags',
-        'pocket_style': "pocket style"
+        'pocket_style': "pocket style",
+        'store': 'Store',
+        'region': 'Region'
     }
 
     filters = {}
