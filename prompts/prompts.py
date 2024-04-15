@@ -7,29 +7,29 @@ data_shirt = pd.read_csv('/home/khudi/Desktop/my_own_agent/final_shirts_dataset.
 
 feature_list = f"""
 ## Shirts Features
-Pants Type: {', '.join(map(str, data['Pants Type'].unique()))}\n
-Fabric:  \n
-Waist: {', '.join(map(str, data['Waist'].unique()))}\n
-Front Pockets: {', '.join(map(str, data['Front Pockets'].unique()))}\n
-Back Pockets: {', '.join(map(str, data["Back Pockets"].unique()))}\n
-Closure: {', '.join(map(str, data["Closure"].unique()))}\n
-Belt Loops:  {', '.join(map(str, data["Belt Loops"].unique()))}\n
-Cuff: {', '.join(map(str, data["Cuff"].unique()))}\n
-Pattern: {', '.join(map(str, data["Pattern"].unique()))}\n
-Store: {', '.join(map(str, data["Store"].unique()))}\n
-Region:{', '.join(map(str, data["Region"].unique()))}\n
+Pants Type: such as, {', '.join(map(str, data['Pants Type'].unique()))}\n
+Fabric: such as, {', '.join(map(str, data['Fabric'].unique()))}\n
+Waist: such as, {', '.join(map(str, data['Waist'].unique()))}\n
+Front Pockets: such as, {', '.join(map(str, data['Front Pockets'].unique()))}\n
+Back Pockets: such as, {', '.join(map(str, data["Back Pockets"].unique()))}\n
+Closure: such as, {', '.join(map(str, data["Closure"].unique()))}\n
+Belt Loops:  such as, {', '.join(map(str, data["Belt Loops"].unique()))}\n
+Cuff: such as, {', '.join(map(str, data["Cuff"].unique()))}\n
+Pattern: such as, {', '.join(map(str, data["Pattern"].unique()))}\n
+Store: such as, {', '.join(map(str, data["Store"].unique()))}\n
+Region: such as, {', '.join(map(str, data["Region"].unique()))}\n
 
 ## Pants Features
-* `size` -  {', '.join(map(str, data_shirt['size'].unique()))}
-* `color` -  {', '.join(map(str, data_shirt['color'].unique()))}
-* `material` - {', '.join(map(str, data_shirt['material'].unique()))}
-* `pattern` - {', '.join(map(str, data_shirt['pattern'].unique()))}
-* `sleeve length` - {', '.join(map(str, data_shirt['sleeve length'].unique()))}
-* `neck style` - {', '.join(map(str, data_shirt['neck style'].unique()))}
-* `pocket style` - {', '.join(map(str, data_shirt['pocket style'].unique()))}
-* `tags` - {', '.join(map(str, data_shirt['tags'].unique()))}
-* `store`- {', '.join(map(str, data_shirt['Store'].unique()))}
-* `region`- {', '.join(map(str, data_shirt['Region'].unique()))}
+* `size` -  such as, {', '.join(map(str, data_shirt['size'].unique()))}
+* `color` -  such as, {', '.join(map(str, data_shirt['color'].unique()))}
+* `material` - such as, {', '.join(map(str, data_shirt['material'].unique()))}
+* `pattern` - such as, {', '.join(map(str, data_shirt['pattern'].unique()))}
+* `sleeve length` - such as, {', '.join(map(str, data_shirt['sleeve length'].unique()))}
+* `neck style` - such as, {', '.join(map(str, data_shirt['neck style'].unique()))}
+* `pocket style` - such as, {', '.join(map(str, data_shirt['pocket style'].unique()))}
+* `tags` - such as, {', '.join(map(str, data_shirt['tags'].unique()))}
+* `store`- such as, {', '.join(map(str, data_shirt['Store'].unique()))}
+* `region`- such as, {', '.join(map(str, data_shirt['Region'].unique()))}
 """
 # def shirt_data_api(start_date:str='2022-01-01', end_date:str='2023-12-31', sku_id: str='all', name:str="all", size:str="all", color:str='all',  material:str='all', pattern:str='all', sleeve_length:str='all', neck_style:str='all', tags:str='all', fit_pocket_style:str='all'):
 
@@ -310,7 +310,7 @@ Go!
 
 
 feature_extractor = """
-You are helpful assistant that helps in enriching the prompt for a specific product description.
+You are helpful assistant that extract the features from the product description.
 
 ## Data Features
 These are the unique valeus of features for pants and shirts.
@@ -320,16 +320,34 @@ These are the unique valeus of features for pants and shirts.
 ## Product Description
 {{product_description}}
 
+## Response
+Your response must be in JSON format.
+
+It must be an object:
+* `feature_name`, the name of the feature
+* `feature_value`, the value of the feature
+  (....this can repeat N times)
+* `product_type`, where it is shirt or pant
+
 ## Example
-User question: I can see the shirt with color charcoal grey, made from cotton with crew neck style. It has no pockets
+User: I can see the shirt in grey color with no pockets and a solid pattern
 
-Output: [
-  "Color is Charcoal grey\nMaterial is Cotton\nNeck Style is Crew\nPocket Style is No Pockets\nRegion is North",
-  "Color is Charcoal grey\nMaterial is Cotton\nNeck Style is Crew\nPocket Style is No Pockets\nRegion is South",
-]
+Output:
+{
+  "color": "Grey",
+  "pocket style": "No Pocket",
+  "pattern": "Solid",
+  "product_type": "shirts"
+}
+"""
 
-## **Response Format**
-Always respond in python list with each item being a prompt
+shap_prompt = """
+You are helpful assistant that interpret the forecasting results and list down the factors contribution to increasing sales and factor contributing to decreasing sales
 
+## Results
+It is a dictionary with keys being the features of product and values being the forecasted sales
 
+{{results}}
+
+Go!
 """
