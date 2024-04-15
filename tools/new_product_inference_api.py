@@ -12,6 +12,10 @@ import itertools
 import time
 import warnings
 
+openai_api_key = os.environ.get('OPENAI_API_KEY')
+together_api_key = os.environ.get('TOGETHER_API_KEY')
+
+
 # Assuming you have the code that generates the warning here
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
@@ -43,7 +47,7 @@ def get_embedding(product_description):
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
-        "Authorization": "Bearer 84ee7f7050742d032694d0f70e9b628e4293246d739df04b02721ed68502fb76"
+        "Authorization": f"Bearer {together_api_key}"
     }
 
     response = requests.post(url, json=payload, headers=headers)
@@ -82,7 +86,7 @@ def json_parser(features_str):
 
 def step(prompt):
     llm = LLM()
-    llm.initialise_llm(api_key='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')
+    llm.initialise_llm(api_key=openai_api_key)
     return llm.step(prompt)
 
 def feature_extractor_fn(product_detail):
@@ -111,6 +115,7 @@ def feature_extractor_fn(product_detail):
                    feature_list_dict[key].append(f"{key}: {value}\n")
                    feature_list_dict[key].append(f"{key}: {random.choice(df[key].unique())}\n")
 
+    print(feature_list_dict)
     result = list(itertools.product(*feature_list_dict.values()))
     combined_result = [''.join(items) for items in result]
 
@@ -126,7 +131,7 @@ def shap(output_dict):
 # print(feature_extractor_fn("I can see a shirt with tea color and no pockets and crew neck style"))
 
 
-def new_product_forecasting_inference_api(product_detail, start_date, end_date):
+def new_product_forecasting_inference_api(product_description, start_date, end_date):
     prediction_dict = {}
 
     df = create_prediction_dataframe(start_date=start_date, end_date=end_date)
@@ -143,7 +148,7 @@ def new_product_forecasting_inference_api(product_detail, start_date, end_date):
     with open('/home/khudi/Desktop/my_own_agent/gpt5.pkl', 'rb') as f:
         loaded_model = pickle.load(f)
 
-    features = feature_extractor_fn(product_detail=product_detail)
+    features = feature_extractor_fn(product_detail=product_description)
     print(features)
     for i,feature in enumerate(features):
         time.sleep(1)
@@ -168,11 +173,15 @@ def new_product_forecasting_inference_api(product_detail, start_date, end_date):
         prediction_dict[feature] = np.sum(result)
 
     interpretaion = shap(prediction_dict)
-    print(interpretaion)
-    return interpretaion
+    output_dictionary = {
+         "result": prediction_dict,
+         "analysis": interpretaion
+    }
+    print(output_dictionary)
+    return output_dictionary
 
     
-new_product_forecasting_inference_api("I can see a shirt with tea color and no pockets and crew neck style", start_date='2024-01-01', end_date='2024-03-31')
+# new_product_forecasting_inference_api("I can see a shirt with tea color and no pockets and crew neck style", start_date='2024-01-01', end_date='2024-03-31')
 
 # with open('model.pkl', 'rb') as f:
 #     # 2. Load the model

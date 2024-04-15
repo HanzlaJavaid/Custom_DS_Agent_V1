@@ -6,6 +6,7 @@ from code.xgboost_model import xgboost_model as xgboost_model_fit_predict
 from tools.pants_data_api import pants_data_api
 from tools.shirts_data_api import shirts_data_api
 from tools.forecasting_model_inference import forecasting_model_inference_api
+from tools.new_product_inference_api import new_product_forecasting_inference_api
 import io
 import sys
 import sys

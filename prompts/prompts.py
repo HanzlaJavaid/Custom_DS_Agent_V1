@@ -76,7 +76,7 @@ data_api_information = f"""
 
 forecasting_model_inference_prompt = """"
 
-* `forecasting_model_inference_api` - api for forecasting model inference. Arguments:
+* `forecasting_model_inference_api` - API for forecasting model inference. Arguments:
   * `sales_dataframe` - dataframe use for training and forecasting. 
   * `start_date` - start date of forecasting, such as '2024-01-01'
   * `end_date` -  end_date of forecasting, such as '2024-03-31'
@@ -86,6 +86,16 @@ forecasting_model_inference_prompt = """"
       * `total_forecast` - total forecast
 
 
+"""
+
+new_product_simulate_sf_prompt =  """"
+* `new_product_forecasting_inference_api` - API for stimulating forecast for new product. Argument
+  * `product_description` - the detail description of the product
+  * `start_date` - start date of forecasting, such as '2024-01-01'
+  * `end_date` -  end_date of forecasting, such as '2024-03-31'
+  `new_product_forecasting_inference_api` returns python dictionary with following key-value:
+      * `result` - result
+      * `analysis` - the analysis of forecasting using SHAP method
 """
 
 task_modifier_prompt = """
@@ -174,6 +184,12 @@ It can be called in python code as such: data = forecasting_model_inference_api(
 
 {{forecasting_model}}
 
+
+## Simulate Sales Forecasting API for New Product
+Use this API to simulate sales forecast for new product. 
+It can be called in python code as such: data = new_product_forecasting_inference_api(...)
+
+{{new_product_simulate_sf_prompt}}
 
 
 ## History
@@ -264,6 +280,15 @@ Output:
     "Fetch the historical sales data for `shirts` for each and every store",
     "Model Inference: infere forecasting api for upcoming months with fetched shirts data",
     "Output the forecasted sales of `shirts`."
+
+]
+
+User question: Stimulate the sales for the following product that I am planning to launch:\nAbout Product: I can see a red shirt with crew neck style and pockets
+
+Output:  
+[   
+    "Call simulate sale forecasting API for new product with relevant args",
+    "Explain the results to user"
 
 ]
 

@@ -1,4 +1,4 @@
-from prompts.prompts import forecasting_model_inference_prompt,task_assigner_prompt, planner_prompt, data_information, task_modifier_prompt, data_api_information, debugger_prompt, responder_prompt
+from prompts.prompts import new_product_simulate_sf_prompt,forecasting_model_inference_prompt,task_assigner_prompt, planner_prompt, task_modifier_prompt, data_api_information, debugger_prompt, responder_prompt
 from sandbox.sandbox import PythonSandbox
 from agent.agent_controller import AgentController
 # import the OpenAI Python library for calling the OpenAI API
@@ -25,7 +25,8 @@ controller = AgentController(planner_prompt=planner_prompt,
                             task_modifier_prompt=task_modifier_prompt,
                             debugger_prompt=debugger_prompt,
                             responder_prompt=responder_prompt,
-                            forecasting_model_inference_prompt=forecasting_model_inference_prompt
+                            forecasting_model_inference_prompt=forecasting_model_inference_prompt,
+                            new_product_simulate_sf_prompt=new_product_simulate_sf_prompt
 )
 
 controller.streamlit_initiate_chat()

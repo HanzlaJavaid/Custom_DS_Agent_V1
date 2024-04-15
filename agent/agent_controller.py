@@ -27,7 +27,7 @@ ANSI_CODES = {
 
 
 class AgentController(LLM): 
-    def __init__(self, planner_prompt, action_delegator_prompt, openai_model_name, code_executor, data, task_modifier_prompt, debugger_prompt, responder_prompt, forecasting_model_inference_prompt):
+    def __init__(self, planner_prompt, action_delegator_prompt, openai_model_name, code_executor, data, task_modifier_prompt, debugger_prompt, responder_prompt, forecasting_model_inference_prompt,new_product_simulate_sf_prompt):
         super().__init__(openai_model_name=openai_model_name)
         self.planner_prompt =  planner_prompt
         self.action_delegator_prompt = action_delegator_prompt
@@ -46,6 +46,7 @@ class AgentController(LLM):
         self.responder_prompt = responder_prompt
         self.forecasting_model_inference_prompt = forecasting_model_inference_prompt
         self.error = False
+        self.new_product_simulate_sf_prompt = new_product_simulate_sf_prompt
 
 
     def responder(self):
@@ -120,7 +121,7 @@ class AgentController(LLM):
     def action_delegator(self):
         self.task_printer(self.tasks.get_task_template())
         prompt = Template(self.action_delegator_prompt)
-        x = prompt.render( history=self.history[-10:], data=self.data, current_task=self.tasks.get_current_task(), forecasting_model=self.forecasting_model_inference_prompt)
+        x = prompt.render( history=self.history[-10:], data=self.data, current_task=self.tasks.get_current_task(), forecasting_model=self.forecasting_model_inference_prompt,new_product_simulate_sf_prompt=self.new_product_simulate_sf_prompt) 
         self.print_color(x, "PURPLE")
         response = response = self.step(x)
         action = self.actionParser(response)
