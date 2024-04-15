@@ -146,7 +146,7 @@ def new_product_forecasting_inference_api(product_description, start_date, end_d
     df['item_sold'] = 1
 
 
-    with open('/home/khudi/Desktop/my_own_agent/gpt5.pkl', 'rb') as f:
+    with open('gpt5.pkl', 'rb') as f:
         loaded_model = pickle.load(f)
 
     features = feature_extractor_fn(product_detail=product_description)
