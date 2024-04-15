@@ -27,7 +27,7 @@ ANSI_CODES = {
 
 
 class AgentController(LLM): 
-    def __init__(self, planner_prompt, action_delegator_prompt, openai_model_name, code_executor, data, task_modifier_prompt, debugger_prompt, responder_prompt, forecasting_model_inference_prompt):
+    def __init__(self, planner_prompt, action_delegator_prompt, openai_model_name, code_executor, data, task_modifier_prompt, debugger_prompt, responder_prompt, forecasting_model_inference_prompt,new_product_simulate_sf_prompt):
         super().__init__(openai_model_name=openai_model_name)
         self.planner_prompt =  planner_prompt
         self.action_delegator_prompt = action_delegator_prompt
@@ -45,6 +45,8 @@ class AgentController(LLM):
         self.container2 = None
         self.responder_prompt = responder_prompt
         self.forecasting_model_inference_prompt = forecasting_model_inference_prompt
+        self.error = False
+        self.new_product_simulate_sf_prompt = new_product_simulate_sf_prompt
 
 
     def responder(self):
@@ -78,7 +80,7 @@ class AgentController(LLM):
     def python_debugger(self, error):
         prompt = Template(self.debugger_prompt)
         x = prompt.render(error=error)
-        return  self.step(x)
+        return  self.actionParser(self.step(x)) 
 
     def task_modifier(self):
         prompt = Template(self.task_modifier_prompt)
@@ -119,7 +121,8 @@ class AgentController(LLM):
     def action_delegator(self):
         self.task_printer(self.tasks.get_task_template())
         prompt = Template(self.action_delegator_prompt)
-        x = prompt.render( history=self.history[-10:], data=self.data, current_task=self.tasks.get_current_task(), forecasting_model=self.forecasting_model_inference_prompt)
+        x = prompt.render( history=self.history[-10:], data=self.data, current_task=self.tasks.get_current_task(), forecasting_model=self.forecasting_model_inference_prompt,new_product_simulate_sf_prompt=self.new_product_simulate_sf_prompt) 
+        self.print_color(x, "PURPLE")
         response = response = self.step(x)
         action = self.actionParser(response)
         if isinstance(action, dict):
@@ -131,6 +134,7 @@ class AgentController(LLM):
             observation = self.code_executor_handler(action['python_code'])
             
             if observation['result'] == "SUCCESS":
+                self.error = False
                 # Memory handler
                 self.history.append({
                     'action': action,
@@ -142,13 +146,22 @@ class AgentController(LLM):
                 if latest_successful_task['modify'] == 'successful':
                     self.tasks.update_task(latest_successful_task['task_number'], 'successful')                    
             else:
-                # debug_message = self.python_debugger(observation)
-                self.history.append({
-                'action': response,
-                'observation': observation
-                    })
+                # correct_code = self.python_debugger(observation)
+                if not self.error:
+                    self.history.append({
+                    'action': response,
+                    'observation': observation
+                        })
+                else:
+                    self.history.pop()
+                    self.history.append({
+                    'action': response,
+                    'observation': observation
+                        })
+                self.error = True
                 self.error_printer(observation['output'])
                 self.print_color("Observation: "  + observation['output'], 'RED')
+                
         else:
             self.history.append({
                 'action': response,
