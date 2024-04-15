@@ -1,7 +1,15 @@
 import pandas as pd
 
-data = pd.read_csv('/home/khudi/Desktop/my_own_agent/final_pants_dataset.csv')
-data_shirt = pd.read_csv('/home/khudi/Desktop/my_own_agent/final_shirts_dataset.csv')
+local_path_pants = "pants_dataset.csv"
+local_path_shirts = "shirts_dataset.csv"
+try:
+    data = pd.read_csv(local_path_pants)
+    data_shirt = pd.read_csv(local_path_shirts)
+except:
+    data = pd.read_csv("https://datasetsdatascienceagent.blob.core.windows.net/salesdatasets/final_pants_dataset.csv")
+    data_shirt = pd.read_csv("https://datasetsdatascienceagent.blob.core.windows.net/salesdatasets/Shirts_sales_data.csv")
+    data.to_csv(local_path_pants)
+    data_shirt.to_csv(local_path_shirts)
 
 # print(data.tail())
 
