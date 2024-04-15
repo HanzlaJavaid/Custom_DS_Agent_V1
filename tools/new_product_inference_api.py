@@ -14,7 +14,8 @@ import warnings
 
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 together_api_key = os.environ.get('TOGETHER_API_KEY')
-
+local_path_pants = "pants_dataset.csv"
+local_path_shirts = "shirts_dataset.csv"
 
 # Assuming you have the code that generates the warning here
 with warnings.catch_warnings():
@@ -104,10 +105,10 @@ def feature_extractor_fn(product_detail):
     
     feature_list_dict = {}
     if output['product_type'] == 'pants':
-         df = pd.read_csv('/home/khudi/Desktop/my_own_agent/final_pants_dataset.csv')
+         df = pd.read_csv(local_path_pants)
 
     else:
-         df = pd.read_csv('/home/khudi/Desktop/my_own_agent/final_shirts_dataset.csv')
+         df = pd.read_csv(local_path_shirts)
 
     for key, value in output.items():
               if key != 'product_type':
